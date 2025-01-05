@@ -31,8 +31,8 @@ Install Neovim, Wezterm, and it's dependencies:
 ```sh
 choco install -y neovim git ripgrep wget fd unzip gzip mingw make wezterm
 git clone https://github.com/faisal-fawad/dotfiles
-xcopy dotfiles/nvim "%localappdata%/nvim" /s /e /h /i /y
-xcopy dotfiles/wezterm "%home%/.config/wezterm" /s /e /h /i /y
+xcopy dotfiles\nvim "%localappdata%/nvim" /s /e /i /h /y
+xcopy dotfiles\wezterm "%userprofile%/.config/wezterm" /s /e /i /h /y
 ```
 </details>
 
@@ -47,4 +47,6 @@ git clone https://github.com/faisal-fawad/dotfiles
 cp -r dotfiles/nvim/* "$HOME/.config/nvim"
 cp -r dotfiles/wezterm/* "$HOME/.config/nvim"
 ```
+
+NOTE: Wezterm must be installed by following the documentation as the Arch repository is often behind the latest release!
 </details>
