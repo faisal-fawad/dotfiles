@@ -1,15 +1,15 @@
 return {
-  'williamboman/mason.nvim',
+  "williamboman/mason.nvim",
   dependencies = {
     -- 'williamboman/mason-lspconfig.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
     -- NOTE: Mason LSP configuration is done directly in lsp.lua
     -- NOTE: Mason DAP configuration is done directly in dap.lua
 
     -- Enable Mason and configure icons
-    require('mason').setup {
+    require("mason").setup({
       ui = {
         icons = vim.g.have_nerd_font and {} or {
           package_installed = "✓",
@@ -17,14 +17,14 @@ return {
           package_uninstalled = "✗",
         },
       },
-    }
+    })
 
     -- Install required tools (for linting, formatting, debugging etc.) from Mason
-    require('mason-tool-installer').setup {
+    require("mason-tool-installer").setup({
       ensure_installed = {
-        'stylua', -- Used to format Lua code
-        'prettier', -- Used to format code for various languages
-      }
-    }
+        "stylua", -- Used to format Lua code
+        "markdownlint", -- Used to lint Markdown files
+      },
+    })
   end,
 }
