@@ -41,13 +41,51 @@ xcopy dotfiles\wezterm "%userprofile%/.config/wezterm" /s /e /i /h /y
 
 <details><summary>Arch Linux Install Steps</summary>
 
-Install Neovim, Wezterm, and it's dependencies:
+Install everything:
 
 ```sh
-sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim stow
+# Basic utilities
+sudo pacman -S gcc make git ripgrep fd unzip stow xclip
+
+# Font: JetBrains Mono
+sudo pacman -S ttf-jetbrains-mono-nerd
+
+# Wezterm, AUR is more up-to-date then official repository
+# NOTE: This will take a while
+yay -S wezterm-git
+
+# Neovim
+sudo pacman -S neovim
+
+# Polybar + Support for Spotify integration (zscroll, journalctl)
+# See here for more: https://github.com/PrayagS/polybar-spotify
+sudo pacman -S polybar
+sudo pacman -S python-distutils-extra
+yay -S zscroll-git
+
+# i3
+sudo pacman -S i3-wm
+
+# Rofi
+sudo pacman -S rofi
+
+# Picom
+sudo pacman -S picom
+
+# Spotify + Spicetify:
+# See here for more: https://github.com/catppuccin/spicetify
+sudo pacman -S spotify-launcher
+yay -S spicetify-cli
+
+# Discord via Vencord:
+yay -S vesktop
+
+# For Firefox, see here: https://github.com/catppuccin/firefox
+
+# Clone repository and stow each directory for configuration
 git clone https://github.com/faisal-fawad/dotfiles
 stow <dir>
 ```
 
-NOTE: Wezterm must be installed by following the documentation as the Arch repository is often behind the latest release!
+NOTE: The set of commands was ran after the EndeavorOS (i3wm flavour) installer and may be missing some prerequisites!
 </details>

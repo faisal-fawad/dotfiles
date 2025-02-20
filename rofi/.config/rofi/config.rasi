@@ -1,0 +1,17 @@
+configuration {
+    font: "JetBrainsMono Nerd Font Medium 14";
+    terminal: "wezterm";
+    show-icons: false;
+    hide-scrollbar: true;
+    sidebar-mode: true;
+    disable-history: false;
+    location: 0;
+    modi: "run,window,combi";
+    display-combi: "  All";
+    display-run: "  Run";
+    display-window: "  Window";
+    drun-display-format: "{name} {icon}";
+}
+
+
+@theme "catppuccin-mocha"
