@@ -50,9 +50,13 @@ function is_windows()
   return wezterm.target_triple:find("windows") ~= nil
 end
 
--- The default shell backing wezterm
-if is_windows() then
+-- The default shell backing wezterm depends on our OS
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+  -- Windows: Git Bash
   config.default_prog = { "C:/Program Files/Git/bin/bash.exe" }
+elseif wezterm.target_triple == "x86_64-unknown-linux-gnu" then
+  -- Linux: zsh
+  config.default_prog = { "zsh" }
 end
 
 -- Configuration to make things look pretty

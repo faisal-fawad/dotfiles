@@ -152,22 +152,22 @@ mode "resize" {
 # Keybinds - Launching programs #
 #################################
 
-# Start preferred terminal (Wezterm)
+# Terminal (Wezterm)
 bindsym $mod+Return exec --no-startup-id wezterm
 
-# Open preferred web browser (Firefox)
-bindsym $mod+w exec --no-startup-id firefox
+# Browser (Firefox)
+bindsym $mod+Shift+Return exec --no-startup-id firefox
 
-# Open preferred file system navigator (Thunar)
+# File system navigator (Thunar)
 bindsym $mod+n exec --no-startup-id thunar
 
-# Take a screenshot
-bindsym Print exec --no-startup-id scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
+# Screenshots (Flameshot)
+bindsym Print exec --no-startup-id flameshot gui --path ~/Pictures
 
 # "Spotlight search/run" (Rofi)
 bindsym $mod+d exec --no-startup-id rofi -show combi
 
-# Power menu switcher (rofi)
+# Power menu switcher (Rofi)
 bindsym $mod+x exec --no-startup-id ~/.config/rofi/powermenu.sh
 
 # Reload i3
@@ -181,18 +181,18 @@ bindsym $mod+Shift+r restart
 #########################
 
 # Brightness up/down
-bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/volume_brightness.sh brightness_up
-bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/volume_brightness.sh brightness_down
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/volume_brightness brightness_up
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/volume_brightness brightness_down
 
 # Mute audio
-bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/volume_brightness.sh volume_mute
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_mute
 
 # Mute microphone
 bindsym XF86AudioMicMute exec amixer sset Capture toggle
 
 # Raise/lower volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness.sh volume_up
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness.sh volume_down
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_up
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_down
 
 # Play/pause song
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause 
@@ -239,14 +239,14 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+- split h
 
 # Split vertically
-bindsym $mod+\\ split v
+bindsym $mod+\ split v
 
 # Fullscreen focused window (container)
 bindsym $mod+f fullscreen toggle
 
 # Change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
-bindsym $mod+g layout tabbed
+bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # Toggle tiling/floating window
@@ -258,37 +258,40 @@ bindsym $mod+space focus mode_toggle
 # Focus the parent container
 bindsym $mod+a focus parent
 
-# Open new empty workspace
-bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/empty_workspace
-
 ############################
 # Workspace / Window rules #
 ############################
 
+# Switch to workspace with urgent window automatically
+for_window [urgent="latest"] focus
+workspace_auto_back_and_forth yes
+
 # Binding workspaces to specific monitors
-workspace $ws1 output VGA-0
-workspace $ws2 output VGA-0
+workspace $ws1 output DP-0
+workspace $ws2 output DP-0
 workspace $ws3 output HDMI-0
 workspace $ws4 output HDMI-0
-workspace $ws5 output HDMI-0
 
 # Binding programs to specific workspaces
 assign [class="firefox"] $ws1
 assign [class="wezterm"] $ws2
-assign [class="thunar"] $ws3
-assign [class="discord"] $ws4
-assign [class="spotify"] $ws5
+assign [class="vesktop"] $ws3
+assign [class="spotify"] $ws4
 
 ###############################
 # Rules for specific programs #
 ###############################
 
-# NOTE: These were set by EndeavorOS and may not be needed anymore
+set $cw 800
+set $ch 600
+for_window [class="Thunar"] floating enable resize set $cw $ch, move position center
+for_window [class="pavucontrol"] floating enable resize set $cw $ch, move position center
+
+# NOTE: These were set by EndeavorOS and need to be verified
 for_window [class="Yad" instance="yad"] floating enable
 for_window [class="Galculator" instance="galculator"] floating enable
 for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
 for_window [class="Xsane" instance="xsane"] floating enable
-for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
 for_window [class="qt5ct" instance="qt5ct"] floating enable
 for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
 for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
@@ -306,9 +309,6 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 # Picom
 exec --no-startup-id picom -b
 
-# Lock
-exec --no-startup-id xss-lock -l ~/.config/i3/scripts/blur-lock
-
 # Authorization setup
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
@@ -319,11 +319,16 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id ~/.screenlayout/monitor.sh
 
 # Set wallpaper
-exec --no-startup-id sleep 1 && feh --bg-fill ~/.config/images/wallpaper.png
+exec --no-startup-id sleep 1 && feh --bg-fill ~/.config/images/wallpaper.jpg
 
 # Desktop notifications (dunst)
 exec --no-startup-id dunst
 
+# Applications
+exec --no-startup-id firefox
+exec --no-startup-id wezterm
+exec --no-startup-id spotify-launcher
+exec --no-startup-id vesktop
+
 # Autotiling
 exec --no-startup-id autotiling
-

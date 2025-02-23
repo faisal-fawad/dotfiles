@@ -5,13 +5,13 @@ configuration {
 
 /*****----- Global Properties -----*****/
 * {
-    font:                        "JetBrainsMono Nerd Font Medium 14";
-    background:                  #1e1e2e;
-    background-alt:              #1e1e2e;
-    foreground:                  #cdd6f4;
-    selected:                    #b4befe;
-    active:                      #6E77FF;
-    urgent:                      #8E3596;
+    font:           "JetBrainsMono Nerd Font 14";
+    background:     #1e1e2e;
+    background-alt: #313244;
+    foreground:     #cdd6f4;
+    selected:       #b4befe;
+    active:         #a6e3a1;
+    urgent:         #f38ba8;
 }
 
 /*
@@ -20,17 +20,21 @@ USE_BUTTONS=YES
 
 /*****----- Main Window -----*****/
 window {
+    /* properties for window widget */
     transparency:                "real";
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
-    width:                       700px;
+    width:                       625px;
     x-offset:                    0px;
     y-offset:                    0px;
 
+    /* properties for all widgets */
+    enabled:                     true;
+    margin:                      0px;
     padding:                     0px;
     border:                      2px solid;
-    border-radius:               0;
+    border-radius:               0px;
     border-color:                @selected;
     cursor:                      "default";
     background-color:            @background;
@@ -39,23 +43,28 @@ window {
 /*****----- Main Box -----*****/
 mainbox {
     enabled:                     true;
-    spacing:                     0px;
+    spacing:                     15px;
     margin:                      0px;
-    padding:                     0px;
+    padding:                     30px;
     border:                      0px solid;
     border-radius:               0px;
     border-color:                @selected;
     background-color:            transparent;
-    children:                    [ "inputbar", "listview", "message" ];
+    children:                    [ "inputbar", "listview" ];
 }
 
 /*****----- Inputbar -----*****/
 inputbar {
-    enabled:                     false;
-    spacing:                     0px;
-    padding:                     100px 80px;
+    enabled:                     true;
+    spacing:                     15px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px;
+    border-radius:               0px;
+    border-color:                @selected;
     background-color:            transparent;
-    children:                    [ "textbox-prompt-colon", "dummy","prompt"];
+    text-color:                  @foreground;
+    children:                    ["textbox-prompt-colon", "prompt"];
 }
 
 dummy {
@@ -63,20 +72,50 @@ dummy {
 }
 
 textbox-prompt-colon {
-    enabled:                     false;
+    enabled:                     true;
     expand:                      false;
-    str:                         " System";
-    padding:                     10px;
+    str:                         "";
+    padding:                     12px 20px 12px 16px;
     border-radius:               10px;
     background-color:            @urgent;
     text-color:                  @background;
 }
+
 prompt {
     enabled:                     true;
-    padding:                     10px;
+    padding:                     12px 16px;
     border-radius:               10px;
     background-color:            @active;
     text-color:                  @background;
+}
+
+/*****----- Message -----*****/
+message {
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     12px;
+    border:                      0px solid;
+    border-radius:               10px;
+    border-color:                @selected;
+    background-color:            @background-alt;
+    text-color:                  @foreground;
+}
+textbox {
+    background-color:            inherit;
+    text-color:                  inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+    placeholder-color:           @foreground;
+    blink:                       true;
+    markup:                      true;
+}
+error-message {
+    padding:                     12px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            @background;
+    text-color:                  @foreground;
 }
 
 /*****----- Listview -----*****/
@@ -93,16 +132,25 @@ listview {
     fixed-columns:               true;
     
     spacing:                     15px;
-    margin:                      15px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
     background-color:            transparent;
+    text-color:                  @foreground;
     cursor:                      "default";
 }
 
 /*****----- Elements -----*****/
 element {
     enabled:                     true;
-    padding:                     30px 10px;
-    border-radius:               14px;
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     20px 18px 20px 10px;
+    border:                      0px solid;
+    border-radius:               10px;
+    border-color:                @selected;
     background-color:            @background-alt;
     text-color:                  @foreground;
     cursor:                      pointer;
@@ -118,20 +166,4 @@ element-text {
 element selected.normal {
     background-color:            var(selected);
     text-color:                  var(background);
-}
-
-/*****----- Message -----*****/
-message {
-    enabled:                     true;
-    margin:                      0px;
-    padding:                     15px;
-    border-radius:               0px;
-    background-color:            @background-alt;
-    text-color:                  @foreground;
-}
-textbox {
-    background-color:            inherit;
-    text-color:                  inherit;
-    vertical-align:              0.5;
-    horizontal-align:            0.5;
 }

@@ -1,0 +1,53 @@
+[global]
+  frame_color = "#b4befe"
+  separator_color = frame
+  highlight = "#b4befe"
+
+  # Default/fallback monitor
+  monitor = 1
+
+  # Use monitor with mouse
+  follow = mouse
+
+  # Styling
+  font = JetBrainsMono Nerd Font 12
+  seperator_height = 2
+  padding = 10
+  horizontal_padding = 10
+  frame_width = 2
+
+  # Advanced styling
+  markup = full
+  format = "<span weight='bold' foreground='#f5c2e7'>%s</span>\n%b"
+  icon_path = "/usr/share/icons/Papirus-Dark/48x48/actions/:/usr/share/icons/Papirus-Dark/48x48/apps/:/usr/share/icons/Papirus-Dark/48x48/devices/:/usr/share/icons/Papirus-Dark/48x48/emblems/:/usr/share/icons/Papirus-Dark/48x48/emotes/:/usr/share/icons/Papirus-Dark/48x48/mimetypes/:/usr/share/icons/Papirus-Dark/48x48/places/:/usr/share/icons/Papirus-Dark/48x48/status/"
+  icon_position = left
+  max_icon_size = 96
+  show_indicators = false
+  corner_radius = 0
+  seperator_color = frame
+
+  # Geometry
+  width = 300
+  height = (0, 300) # Dynamic from 0-300
+  origin = top-right
+  offset = (15, 70)
+  scale = 0 # Auto-detected
+  notification_limit = 5
+
+  # Mouse
+  mouse_left_click = do_action
+  mouse_middle_click = close_current
+  mouse_right_click = close_all
+
+[urgency_low]
+  background = "#1e1e2e"
+  foreground = "#cdd6f4"
+
+[urgency_normal]
+  background = "#1e1e2e"
+  foreground = "#cdd6f4"
+
+[urgency_critical]
+  background = "#1e1e2e"
+  foreground = "#cdd6f4"
+  frame_color = "#fab387"
