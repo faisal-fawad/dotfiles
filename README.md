@@ -27,13 +27,14 @@ See [Install Recipes](#Install-Recipes) for Windows and Linux specific notes and
 
 <details><summary>Windows Install Steps</summary>
 
-Install Neovim, WezTerm, and it's dependencies:
+Install Neovim, WezTerm, and it's dependencies through Command Prompt:
 
-```sh
+```cmd
 choco install -y neovim git ripgrep wget fd unzip gzip mingw make wezterm
 git clone https://github.com/faisal-fawad/dotfiles
-xcopy dotfiles\nvim\.config\nvim "%localappdata%/nvim" /s /e /i /h /y
-xcopy dotfiles\wezterm\.config\wezterm "%userprofile%/.config/wezterm" /s /e /i /h /y
+cd dotfiles
+mklink /J "%localappdata%/nvim" "nvim\.config\nvim"
+mklink /J "%userprofile%/.config/wezterm" "wezterm\.config\wezterm"
 ```
 
 NOTE: By installing `git`, Git Bash should also be installed!
@@ -43,7 +44,7 @@ NOTE: By installing `git`, Git Bash should also be installed!
 
 <details><summary>Arch Linux Install Steps</summary>
 
-Install everything and load configuration:
+Install everything and load configuration through Bash:
 
 ```sh
 # Basic utilities
