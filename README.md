@@ -2,6 +2,10 @@
 
 My development workflow, managed by [GNU Stow](https://www.gnu.org/software/stow/). This is primarily Linux-based but some tools can also be installed on Windows!
 
+### Preview
+
+![A picture of Linux with the dotfiles in this repository](https://github.com/user-attachments/assets/7aab1ec3-c957-4be3-b24f-499d17ee89e5)
+
 ### Overview
 
 | Component | Linux | Windows |
