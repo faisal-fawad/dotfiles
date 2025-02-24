@@ -53,6 +53,24 @@ require("lazy").setup({
     opts = { signs = false },
   },
   "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
+  {
+    -- Status line
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lualine").setup({
+        options = {
+          -- These are known as powerline symbols
+          section_separators = { left = "", right = "" },
+          component_separators = { left = "", right = "" },
+        },
+        sections = {
+          lualine_b = { "branch", "diff" },
+          lualine_x = { "diagnostics", "encoding", "filetype" },
+        },
+      })
+    end,
+  },
 
   -- Import the rest of the plugins with extensive configuration
   { import = "faisal.plugins" },

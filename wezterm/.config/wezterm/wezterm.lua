@@ -35,9 +35,10 @@
 -- - The tab bar is located at the bottom of the terminal window.
 -- - Tab and split indices are zero-based.
 
--- Pull in the wezterm API
+-- Pull in the wezterm API and plugins
 local wezterm = require("wezterm")
 local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim")
+local tab = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
 
 -- This table will hold the configuration
 local config = {}
@@ -70,15 +71,14 @@ config.term = "xterm-256color"
 config.color_scheme = "Catppuccin Mocha"
 config.font_size = 14
 config.window_background_opacity = 0.9
-config.window_decorations = "RESIZE"
-config.colors = {
-  tab_bar = {
-    background = "rgba(0, 0, 0, 0)",
-  },
-}
+config.tab_bar_at_bottom = true
 
 -- Configuration to mimic tmux behavior
-config.leader = { key = "q", mods = "ALT", timeout_milliseconds = 2000 }
+config.leader = {
+  key = "q",
+  mods = "ALT",
+  timeout_milliseconds = 2000,
+}
 config.keys = {
   {
     mods = "LEADER",
@@ -152,52 +152,21 @@ config.keys = {
   },
 }
 
--- Get the active tab index via GUI window
-function get_active_tab_index(window)
-  for _, item in ipairs(window:mux_window():tabs_with_info()) do
-    if item.is_active then
-      return item.index
-    end
-  end
-  return nil
-end
-
--- Mimic tmux leader key status behavior
-wezterm.on("update-right-status", function(window, _)
-  local SOLID_LEFT_ARROW = ""
-  local ARROW_FOREGROUND = { Foreground = { Color = "#c6a0f6" } }
-  local LEADER_TEXT = ""
-
+-- Trigger event for leader extension
+wezterm.on("update-status", function(window, _)
   if window:leader_is_active() then
-    LEADER_TEXT = " " .. utf8.char(0x1f30a) -- ocean wave
-    SOLID_LEFT_ARROW = utf8.char(0xe0b2)
+    wezterm.emit("leader.show")
+  else
+    wezterm.emit("leader.hide")
   end
-
-  if get_active_tab_index(window) ~= 0 then
-    ARROW_FOREGROUND = { Foreground = { Color = "#1e2030" } }
-  end
-
-  window:set_left_status(wezterm.format({
-    { Background = { Color = "#b7bdf8" } },
-    { Text = LEADER_TEXT },
-    ARROW_FOREGROUND,
-    { Text = SOLID_LEFT_ARROW },
-  }))
 end)
 
--- Tab bar configuration
-config.tab_max_width = 32
-config.hide_tab_bar_if_only_one_tab = false
-config.tab_bar_at_bottom = true
-config.use_fancy_tab_bar = false
-config.tab_and_split_indices_are_zero_based = true
-
-for i = 0, 9 do
+for i = 1, 9 do
   -- Enables leader + number to activate specified tab
   table.insert(config.keys, {
     key = tostring(i),
     mods = "LEADER",
-    action = wezterm.action.ActivateTab(i),
+    action = wezterm.action.ActivateTab(i - 1),
   })
 end
 
@@ -211,9 +180,49 @@ wezterm.on("gui-startup", function(cmd)
   wezterm.mux.set_active_workspace("default")
 end)
 
--- Applys the required configuration for seamless Neovim + Wezterm split navigation
+local leader_extension = {
+  "leader",
+  events = {
+    show = "leader.show",
+    hide = "leader.hide",
+    delay = 2,
+  },
+  sections = {
+    tabline_a = { " 🌊 " },
+  },
+}
+tab.setup({
+  options = {
+    -- These are known as powerline symbols
+    section_separators = { left = "", right = "" },
+    component_separators = { left = "", right = "" },
+    tab_separators = { left = "", right = "" },
+  },
+  sections = {
+    tabline_a = {}, -- Shows leader key
+    tabline_b = { "workspace" },
+    tabline_c = {},
+    tab_active = {
+      "index",
+      { "parent", padding = 0 },
+      "/",
+      { "cwd", padding = { left = 0, right = 1 } },
+    },
+    tab_inactive = {
+      "index",
+      { "process", padding = { left = 0, right = 1 } },
+    },
+    tabline_x = {},
+    tabline_y = { "datetime" },
+    tabline_z = { "domain" },
+  },
+  extensions = { leader_extension },
+})
+
+-- Applys the required configuration for plugins
 -- NOTE: This must be done right before returning the configuration
 smart_splits.apply_to_config(config)
+tab.apply_to_config(config)
 
 -- Return the configuration to Wezterm
 return config
