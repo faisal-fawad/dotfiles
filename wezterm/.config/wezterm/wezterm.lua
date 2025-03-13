@@ -46,11 +46,6 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
--- Helper function to determine if we're on Windows or not
-function is_windows()
-  return wezterm.target_triple:find("windows") ~= nil
-end
-
 -- The default shell backing wezterm depends on our OS
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
   -- Windows: Git Bash
@@ -70,7 +65,7 @@ config.cursor_blink_rate = 500
 config.term = "xterm-256color"
 config.color_scheme = "Catppuccin Mocha"
 config.font_size = 14
-config.window_background_opacity = 0.9
+config.window_background_opacity = 1
 config.tab_bar_at_bottom = true
 
 -- Configuration to mimic tmux behavior
@@ -194,9 +189,9 @@ local leader_extension = {
 tab.setup({
   options = {
     -- These are known as powerline symbols
-    section_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
     component_separators = { left = "", right = "" },
-    tab_separators = { left = "", right = "" },
+    tab_separators = { left = "", right = " " },
   },
   sections = {
     tabline_a = {}, -- Shows leader key
@@ -213,8 +208,8 @@ tab.setup({
       { "process", padding = { left = 0, right = 1 } },
     },
     tabline_x = {},
-    tabline_y = { "datetime" },
-    tabline_z = { "domain" },
+    tabline_y = { "domain" },
+    tabline_z = { "hostname" },
   },
   extensions = { leader_extension },
 })

@@ -61,8 +61,8 @@ require("lazy").setup({
       require("lualine").setup({
         options = {
           -- These are known as powerline symbols
-          section_separators = { left = "", right = "" },
-          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
+          component_separators = { left = "", right = "" },
         },
         sections = {
           lualine_b = { "branch", "diff" },
